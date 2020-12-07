@@ -67,8 +67,8 @@ def main():
     print(term.clear())
     print("Install docker")
     print("Install docker-compose")
-    print("bash ./scripts/install_docker.sh install")
-    subprocess.call("bash ./scripts/install_docker.sh install", shell=True)
+    print("sudo bash ./scripts/install_docker.sh install")
+    subprocess.call("sudo bash ./scripts/install_docker.sh install", shell=True)
     print("")
     input("Process terminated. Press [Enter] to show menu and continue.")
     return True
@@ -77,8 +77,8 @@ def main():
     print(term.clear())
     print("Install docker")
     print("Install docker-compose")
-    print("bash ./scripts/install_docker.sh upgrade")
-    subprocess.call("bash ./scripts/install_docker.sh upgrade", shell=True)
+    print("sudo bash ./scripts/install_docker.sh upgrade")
+    subprocess.call("sudo bash ./scripts/install_docker.sh upgrade", shell=True)
     print("")
     input("Process terminated. Press [Enter] to show menu and continue.")
     return True
