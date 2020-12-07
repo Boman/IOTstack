@@ -298,6 +298,7 @@ function do_docker_checks() {
 		echo "Docker not installed" >&2
 		if [ ! -f .docker_notinstalled ]; then
 			if (whiptail --title "Docker and Docker-Compose" --yesno "Docker is not currently installed, and is required to run IOTstack. Would you like to install docker and docker-compose now?\nYou will not be prompted again." 20 78); then
+					requestRebootflag=0
 					[ -f .docker_notinstalled ] && rm .docker_notinstalled
 					echo "Setting up environment:"
 					if [[ ! "$(user_in_group bluetooth)" == "notgroup" ]] && [[ ! "$(user_in_group bluetooth)" == "true" ]]; then
@@ -305,6 +306,7 @@ function do_docker_checks() {
 						echo "sudo usermod -G bluetooth -a $USER" >&2
 						echo "You will need to restart your system before the changes take effect."
 						sudo usermod -G "bluetooth" -a $USER
+			      requestRebootflag=1
 					fi
 
 					if [ ! "$(user_in_group docker)" == "true" ]; then
@@ -312,8 +314,15 @@ function do_docker_checks() {
 						echo "sudo usermod -G docker -a $USER" >&2
 						echo "You will need to restart your system before the changes take effect."
 						sudo usermod -G "docker" -a $USER
+			      requestRebootflag=1
 					fi
 					install_docker
+
+          if [ $requestRebootflag = 1 ] ; then
+            if (whiptail --title "Restart Required" --yesno "It is recommended that you restart your device now. Select yes to do so now" 20 78); then
+              sudo reboot
+            fi
+          fi
 				else
 					touch .docker_notinstalled
 			fi
