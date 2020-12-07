@@ -35,8 +35,14 @@ if [[ $response == "y" || $response == "Y" ]]; then
 	if [ -n "$hassio_machine" ]; then
 		sudo systemctl disable ModemManager
 		sudo systemctl stop ModemManager
+		sudo apt-get install apparmor network-manager
 		curl -sL "https://raw.githubusercontent.com/Kanga-Who/home-assistant/master/supervised-installer.sh" | sudo bash -s -- -m $hassio_machine
-		clear
+		if [ $? -eq 0 ]
+    then
+      clear
+    else
+      exit $?
+    fi
 		exit 0
 	else
 		clear
