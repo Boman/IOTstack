@@ -78,8 +78,8 @@ def main():
 
   # This function is optional, and will run after the docker-compose.yml file is written to disk.
   def postBuild():
-    with open('code-serve.env', 'r') as envFile:
-      envFile.write(f"{os.getuid()}:{os.getgid()}")
+    with open('templates/code-server/code-server.env', 'w') as envFile:
+      envFile.write(f"PUID={os.getuid()}\nGUID={os.getgid()}")
     return True
 
   # This function is optional, and will run just before the build docker-compose.yml code.
