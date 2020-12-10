@@ -78,7 +78,9 @@ def main():
 
   # This function is optional, and will run after the docker-compose.yml file is written to disk.
   def postBuild():
-    with open('./services/code-server/code-server.env', 'w') as envFile:
+    if not os.path.exists(serviceService):
+      os.makedirs(serviceService, exist_ok=True)
+    with open(f'{serviceService}/{currentServiceName}.env', 'w') as envFile:
       envFile.write(f"PUID={os.getuid()}\nGUID={os.getgid()}")
     return True
 
