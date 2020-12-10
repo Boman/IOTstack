@@ -1,9 +1,9 @@
 import os
+import traceback
+
 import ruamel.yaml
-import math
-import sys
+from deps.consts import templatesDirectory, buildCache, envFile, dockerPathOutput, composeOverrideFile
 from deps.yaml_merge import mergeYaml
-from deps.consts import servicesDirectory, templatesDirectory, volumesDirectory, buildCache, envFile, dockerPathOutput, servicesFileName, composeOverrideFile
 
 yaml = ruamel.yaml.YAML()
 yaml.preserve_quotes = True
@@ -41,9 +41,9 @@ def buildServices(dockerComposeServicesYaml):
       yaml.dump(menuStateFileYaml, outputFile, explicit_start=True, default_style='"')
     runPostBuildHook()
     return True
-  except Exception as err: 
+  except Exception:
     print("Issue running build:")
-    print(err)
+    traceback.print_exc()
     input("Press Enter to continue...")
     return False
 
@@ -69,9 +69,9 @@ def runPrebuildHook(dockerComposeServicesYaml):
             }
             execLocals = locals()
             exec(code, execGlobals, execLocals)
-        except Exception as err:
+        except Exception:
           print("Error running PreBuildHook on '%s'" % checkedMenuItem)
-          print(err)
+          traceback.print_exc()
           input("Press Enter to continue...")
           try: # If the prebuild hook modified the docker-compose object, pull it from the script back to here.
             dockerComposeServicesYaml = execGlobals["dockerComposeServicesYaml"]
@@ -100,7 +100,7 @@ def runPostBuildHook():
             }
             execLocals = locals()
             exec(code, execGlobals, execLocals)
-        except Exception as err:
+        except Exception:
           print("Error running PostBuildHook on '%s'" % checkedMenuItem)
-          print(err)
+          traceback.print_exc()
           input("Press Enter to continue...")

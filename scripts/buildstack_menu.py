@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-import signal
 
 checkedMenuItems = []
 results = {}
@@ -8,11 +7,11 @@ def main():
   import os
   import time
   import ruamel.yaml
-  import math
   import sys
   import subprocess
+  import traceback
   from deps.chars import specialChars, commonTopBorder, commonBottomBorder, commonEmptyLine, padText
-  from deps.consts import servicesDirectory, templatesDirectory, volumesDirectory, buildCache, envFile, dockerPathOutput, servicesFileName, composeOverrideFile
+  from deps.consts import templatesDirectory, buildCache, envFile, dockerPathOutput, servicesFileName, composeOverrideFile
   from deps.yaml_merge import mergeYaml
   from blessed import Terminal
   global signal
@@ -89,7 +88,7 @@ def main():
       return True
     except Exception as err: 
       print("Issue running build:")
-      print(err)
+      traceback.print_exc()
       input("Press Enter to continue...")
       return False
 
@@ -313,9 +312,9 @@ def main():
           print(term.center(commonEmptyLine(renderMode, size = 139)))
           print(term.center(commonBottomBorder(renderMode, size = 139)))
 
-    except Exception as err: 
+    except Exception:
       print("There was an error rendering the menu:")
-      print(err)
+      traceback.print_exc()
       print("Press [Esc] to go back")
       return
 
@@ -399,15 +398,15 @@ def main():
                 menu[getMenuItemIndexByService(checkedMenuItem)][1]["issues"] = execGlobals["issues"]
               else:
                 menu[getMenuItemIndexByService(checkedMenuItem)][1]["issues"] = []
-            except Exception as err:
+            except Exception:
               print("Error running checkForIssues on '%s'" % checkedMenuItem)
-              print(err)
+              traceback.print_exc()
               input("Press Enter to continue...")
           else:
             menu[getMenuItemIndexByService(checkedMenuItem)][1]["issues"] = []
-        except Exception as err:
+        except Exception:
           print("Error running checkForIssues on '%s'" % checkedMenuItem)
-          print(err)
+          traceback.print_exc()
           input("Press any key to exit...")
           sys.exit(1)
 
@@ -431,9 +430,9 @@ def main():
             menu[getMenuItemIndexByService(menuItem[0])][1]["buildHooks"] = {}
           if "options" in execGlobals["buildHooks"] and execGlobals["buildHooks"]["options"]:
             menu[getMenuItemIndexByService(menuItem[0])][1]["buildHooks"]["options"] = True
-        except Exception as err:
+        except Exception:
           print("Error running checkForOptions on '%s'" % menuItem[0])
-          print(err)
+          traceback.print_exc()
           input("Press any key to exit...")
           sys.exit(1)
 
@@ -460,9 +459,9 @@ def main():
               }
               execLocals = locals()
               exec(code, execGlobals, execLocals)
-          except Exception as err:
+          except Exception:
             print("Error running PreBuildHook on '%s'" % checkedMenuItem)
-            print(err)
+            traceback.print_exc()
             input("Press Enter to continue...")
             try: # If the prebuild hook modified the docker-compose object, pull it from the script back to here.
               dockerComposeServicesYaml = execGlobals["dockerComposeServicesYaml"]
@@ -491,9 +490,9 @@ def main():
               }
               execLocals = locals()
               exec(code, execGlobals, execLocals)
-          except Exception as err:
+          except Exception:
             print("Error running PostBuildHook on '%s'" % checkedMenuItem)
-            print(err)
+            traceback.print_exc()
             input("Press Enter to continue...")
 
   def executeServiceOptions():
