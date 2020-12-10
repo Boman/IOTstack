@@ -6,8 +6,10 @@
     ports:
       - "8443:8443"
     environment:
-      - PUID=0
-      - GUID=0
+      - PUID=1000
+      - GUID=1000
       - TZ=America/Chicago
     volumes:
-      - ./.:/IOTstack
+      - ./.:/config/IOTstack
+    env_file:
+      - ./services/code-server/code-server.env
