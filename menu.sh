@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #get path of menu correct
-pushd ~/IOTstack
+pushd ~/IOTstack || exit
 
 CURRENT_BRANCH=${1:-$(git name-rev --name-only HEAD)}
 
@@ -52,6 +52,8 @@ declare -A cont_array=(
 	[domoticz]="Domoticz"
 	[dozzle]="Dozzle"
 	[wireguard]="Wireguard"
+	[code-server]="code-server"
+	[octoprint]="octoprint"
 	# add yours here
 )
 
@@ -90,6 +92,8 @@ declare -a armhf_keys=(
 	"domoticz"
 	"dozzle"
 	"wireguard"
+	"code-server"
+	"octoprint"
 	# add yours here
 )
 sys_arch=$(uname -m)
