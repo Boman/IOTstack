@@ -17,7 +17,6 @@ REQ_PYTHON_VERSION=3.6.9
 REQ_PYYAML_VERSION=5.3.1
 
 declare -A cont_array=(
-	[portainer]="Portainer"
 	[portainer-ce]="Portainer-ce"
 	[portainer_agent]="Portainer agent"
 	[nodered]="Node-RED"
@@ -58,7 +57,6 @@ declare -A cont_array=(
 )
 
 declare -a armhf_keys=(
-	"portainer"
 	"portainer-ce"
 	"portainer_agent"
 	"nodered"
