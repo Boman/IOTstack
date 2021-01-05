@@ -1,13 +1,13 @@
-code-server:
-  container_name: code-server
-  image: linuxserver/code-server
-  restart: unless-stopped
-  user: "0"
-  ports:
-    - "8443:8443"
-  environment:
-    - PUID=1000
-    - GUID=1000
-    - TZ=Europe/Berlin
-  volumes:
-    - ./.:/config/IOTstack
+  code-server:
+    container_name: code-server
+    image: linuxserver/code-server
+    restart: unless-stopped
+    user: "0"
+    ports:
+      - "8443:8443"
+    environment:
+      - PUID=1000
+      - GUID=1000
+      - TZ=Europe/Berlin
+    volumes:
+      - ./.:/config/IOTstack

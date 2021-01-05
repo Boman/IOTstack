@@ -1,15 +1,15 @@
-octoprint:
-  container_name: octoprint
-  image: octoprint/octoprint
-  restart: unless-stopped
-  user: "0"
-  ports:
-    - "5000:80"
-  devices:
-    - /dev/ttyACM0:/dev/ttyACM0
-    - /dev/video0:/dev/video0
-  volumes:
-    - ./volumes/octoprint/data:/octoprint
-  # lines below to ensure camera streaming is enabled when you add a video device
-  environment:
-    - ENABLE_MJPG_STREAMER=true
+  octoprint:
+    container_name: octoprint
+    image: octoprint/octoprint
+    restart: unless-stopped
+    user: "0"
+    ports:
+      - "5000:80"
+    devices:
+      - /dev/ttyACM0:/dev/ttyACM0
+      - /dev/video0:/dev/video0
+    volumes:
+      - ./volumes/octoprint/data:/octoprint
+    # lines below to ensure camera streaming is enabled when you add a video device
+    environment:
+      - ENABLE_MJPG_STREAMER=true
