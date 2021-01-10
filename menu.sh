@@ -53,6 +53,8 @@ declare -A cont_array=(
 	[wireguard]="Wireguard"
 	[code-server]="code-server"
 	[octoprint]="octoprint"
+	[traefik]="traefik"
+	[traefik-forward-auth]="traefik-forward-auth"
 	# add yours here
 )
 
@@ -92,6 +94,8 @@ declare -a armhf_keys=(
 	"wireguard"
 	"code-server"
 	"octoprint"
+	"traefik"
+  "traefik-forward-auth"
 	# add yours here
 )
 sys_arch=$(uname -m)

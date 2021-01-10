@@ -1,0 +1,21 @@
+traefik-forward-auth:
+  container_name: traefik-forward-auth
+  image: thomseddon/traefik-forward-auth:2-arm
+  restart: unless-stopped
+  user: "0"
+  environment:
+#    - LOG_LEVEL=debug
+    - PROVIDERS_GOOGLE_CLIENT_ID=<YOUR_CLIENT_ID>.apps.googleusercontent.com
+    - PROVIDERS_GOOGLE_CLIENT_SECRET=<YOUR_CLIENT_SECRET>
+    - SECRET=<RANDOM_COOKIE_SECRET>
+    - AUTH_HOST=auth.<YOUR_DOMAIN>
+    - COOKIE_DOMAIN=<YOUR_DOMAIN>
+  labels:
+    - "traefik.enable=true"
+    - "traefik.http.routers.traefik-forward-auth.rule=Host(`auth.<YOUR_DOMAIN>`)"
+    - "traefik.http.routers.traefik-forward-auth.middlewares=traefik-forward-auth"
+    - "traefik.http.routers.traefik-forward-auth.entrypoints=websecure"
+    - "traefik.http.routers.traefik-forward-auth.tls.certresolver=letsencrypt"
+    - "traefik.http.middlewares.traefik-forward-auth.forwardauth.address=http://traefik-forward-auth:4181"
+    - "traefik.http.middlewares.traefik-forward-auth.forwardauth.authResponseHeaders=X-Forwarded-User"
+    - "traefik.http.services.traefik-forward-auth.loadbalancer.server.port=4181"
