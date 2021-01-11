@@ -3,11 +3,10 @@
     image: thomseddon/traefik-forward-auth:2-arm
     restart: unless-stopped
     user: "0"
-#    command:
-#      - "--whitelist=<YOUR_EMAIL>"
-#      - "--whitelist=<YOUR_EMAIL2>"
+    command:
+      - "--whitelist=<YOUR_EMAIL>"
+      - "--whitelist=<YOUR_EMAIL2>"
     environment:
-#      - LOG_LEVEL=debug
       - PROVIDERS_GOOGLE_CLIENT_ID=<YOUR_CLIENT_ID>.apps.googleusercontent.com
       - PROVIDERS_GOOGLE_CLIENT_SECRET=<YOUR_CLIENT_SECRET>
       - SECRET=<RANDOM_COOKIE_SECRET>
